@@ -13,32 +13,32 @@ building_id, mean_temp, std_temp, pct_above_18, pct_below_15
 
 ------------------------------------------------------------
 Sender: LSF System <lsfadmin@hpc.dtu.dk>
-Subject: Job 28187068: <sleeper> in cluster <dcc> Done
+Subject: Job 28197875: <parallel_map_static> in cluster <dcc> Done
 
-Job <sleeper> was submitted from host <hpclogin1> by user <s243894> in cluster <dcc> at Sat Apr 11 12:06:14 2026
-Job was executed on host(s) <10*n-62-11-57>, in queue <hpc>, as user <s243894> in cluster <dcc> at Sat Apr 11 12:06:14 2026
+Job <parallel_map_static> was submitted from host <n-62-30-1> by user <s243894> in cluster <dcc> at Mon Apr 13 16:33:36 2026
+Job was executed on host(s) <10*n-62-11-57>, in queue <hpc>, as user <s243894> in cluster <dcc> at Mon Apr 13 16:33:37 2026
 </zhome/cf/4/214758> was used as the home directory.
 </zhome/cf/4/214758/python_study/mini_hpc> was used as the working directory.
-Started at Sat Apr 11 12:06:14 2026
-Terminated at Sat Apr 11 12:06:35 2026
-Results reported at Sat Apr 11 12:06:35 2026
+Started at Mon Apr 13 16:33:37 2026
+Terminated at Mon Apr 13 16:34:04 2026
+Results reported at Mon Apr 13 16:34:04 2026
 
 Your job looked like:
 
 ------------------------------------------------------------
 # LSBATCH: User input
 #!/bin/bash
-#BSUB -J sleeper
+#BSUB -J parallel_map_static
 #BSUB -q hpc
 #BSUB -W 2
 #BSUB -R "rusage[mem=5GB]"
 #BSUB -R "select[model==XeonGold6226R]"
 #BSUB -n 10
-#BSUB -o sleeper_%J.out
-#BSUB -e sleeper_%J.err
+#BSUB -o required_logs/T5/parallel_map_static_%J.out
+#BSUB -e required_logs/T5/parallel_map_static_%J.err
 source /dtu/projects/02613_2025/conda/conda_init.sh
 conda activate 02613_2026
-/usr/bin/time -v -o required_logs/parallel.log python3 src/parallel.py 10 10
+/usr/bin/time -v -o required_logs/T5/parallel_map_static.log python3 src/parallel_map_static.py 10 10
 
 ------------------------------------------------------------
 
@@ -46,16 +46,16 @@ Successfully completed.
 
 Resource usage summary:
 
-    CPU time :                                   109.54 sec.
-    Max Memory :                                 171 MB
-    Average Memory :                             171.00 MB
+    CPU time :                                   148.20 sec.
+    Max Memory :                                 158 MB
+    Average Memory :                             158.00 MB
     Total Requested Memory :                     51200.00 MB
-    Delta Memory :                               51029.00 MB
+    Delta Memory :                               51042.00 MB
     Max Swap :                                   -
     Max Processes :                              15
     Max Threads :                                19
-    Run time :                                   21 sec.
-    Turnaround time :                            21 sec.
+    Run time :                                   27 sec.
+    Turnaround time :                            28 sec.
 
 The output (if any) is above this job summary.
 
@@ -63,5 +63,5 @@ The output (if any) is above this job summary.
 
 PS:
 
-Read file <sleeper_28187068.err> for stderr output of this job.
+Read file <required_logs/T5/parallel_map_static_28197875.err> for stderr output of this job.
 

@@ -12,16 +12,17 @@ def load_data(load_dir, bid):
     return u, interior_mask
 
 
-def jacobi(u, interior_mask):
+def jacobi(building_ids):
     max_iter = 20_000
     atol = 1e-4
+    LOAD_DIR = "/dtu/projects/02613_2025/data/modified_swiss_dwellings/"
+    u, interior_mask = load_data(LOAD_DIR, building_ids)
     for i in range(max_iter):
         # Compute average of left, right, up and down neighbors, see eq. (1)
         u_new = 0.25 * (u[1:-1, :-2] + u[1:-1, 2:] + u[:-2, 1:-1] + u[2:, 1:-1])
         u_new_interior = u_new[interior_mask]
         delta = np.abs(u[1:-1, 1:-1][interior_mask] - u_new_interior).max()
         u[1:-1, 1:-1][interior_mask] = u_new_interior
-
         if delta < atol:
             break
     return u
@@ -39,19 +40,6 @@ def summary_stats(u, interior_mask):
         "pct_above_18": pct_above_18,
         "pct_below_15": pct_below_15,
     }
-
-
-def unpack_tasks(args):
-    return jacobi(*args)
-
-
-def get_tasks(building_ids):
-    LOAD_DIR = "/dtu/projects/02613_2025/data/modified_swiss_dwellings/"
-    MAX_ITER = 20_000
-    ABS_TOL = 1e-4
-    for bid in building_ids:
-        u0, mask = load_data(LOAD_DIR, bid)
-        yield (u0, mask, MAX_ITER, ABS_TOL)
 
 
 if __name__ == "__main__":
@@ -92,7 +80,7 @@ if __name__ == "__main__":
     # chunk_size =
 
     pool = multiprocessing.Pool(n_proc)
-    all_u = pool.imap(unpack_tasks, get_tasks(building_ids))
+    all_u = pool.imap(jacobi, building_ids)
 
     stat_keys = ["mean_temp", "std_temp", "pct_above_18", "pct_below_15"]
     print("building_id, " + ", ".join(stat_keys))  # CSV header
