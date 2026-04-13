@@ -12,9 +12,9 @@ def load_data(load_dir, bid):
     return u, interior_mask
 
 
-def jacobi(u, interior_mask, max_iter, atol=1e-6):
-    u = np.copy(u)
-
+def jacobi(u, interior_mask):
+    max_iter = 20_000
+    atol = 1e-4
     for i in range(max_iter):
         # Compute average of left, right, up and down neighbors, see eq. (1)
         u_new = 0.25 * (u[1:-1, :-2] + u[1:-1, 2:] + u[:-2, 1:-1] + u[2:, 1:-1])
@@ -39,6 +39,10 @@ def summary_stats(u, interior_mask):
         "pct_above_18": pct_above_18,
         "pct_below_15": pct_below_15,
     }
+
+
+def unpack_tasks(args):
+    return jacobi(*args)
 
 
 def get_tasks(building_ids):
@@ -88,7 +92,7 @@ if __name__ == "__main__":
     # chunk_size =
 
     pool = multiprocessing.Pool(n_proc)
-    all_u = pool.starmap(jacobi, get_tasks(building_ids))
+    all_u = pool.imap(unpack_tasks, get_tasks(building_ids))
 
     stat_keys = ["mean_temp", "std_temp", "pct_above_18", "pct_below_15"]
     print("building_id, " + ", ".join(stat_keys))  # CSV header
@@ -100,4 +104,3 @@ if __name__ == "__main__":
         u = jacobi(u0, interior_mask, MAX_ITER, ABS_TOL)
         all_u[i] = u
     """
-
