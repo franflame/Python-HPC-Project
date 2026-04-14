@@ -1,0 +1,101 @@
+Running in directory:
+/zhome/1a/0/221254/project
+Python used:
+/usr/bin/python
+Allocated cores:
+16
+Job started
+Tue Mar 17 15:10:30 CET 2026
+Running benchmark with 50 floorplans
+
+Running with 1 workers
+Runtime: 507.13 seconds
+
+Running with 2 workers
+Runtime: 299.17 seconds
+
+Running with 4 workers
+Runtime: 253.67 seconds
+
+Running with 8 workers
+Runtime: 171.64 seconds
+
+Running with 16 workers
+Runtime: 112.82 seconds
+
+Results saved:
+- timings.txt
+- speedup.png
+Job finished
+Tue Mar 17 15:32:55 CET 2026
+
+------------------------------------------------------------
+Sender: LSF System <lsfadmin@hpc.dtu.dk>
+Subject: Job 28050364: <jacobi_benchmark> in cluster <dcc> Done
+
+Job <jacobi_benchmark> was submitted from host <hpclogin2> by user <s251562> in cluster <dcc> at Tue Mar 17 15:10:29 2026
+Job was executed on host(s) <16*n-62-11-56>, in queue <hpc>, as user <s251562> in cluster <dcc> at Tue Mar 17 15:10:30 2026
+</zhome/1a/0/221254> was used as the home directory.
+</zhome/1a/0/221254/project> was used as the working directory.
+Started at Tue Mar 17 15:10:30 2026
+Terminated at Tue Mar 17 15:32:55 2026
+Results reported at Tue Mar 17 15:32:55 2026
+
+Your job looked like:
+
+------------------------------------------------------------
+# LSBATCH: User input
+#!/bin/bash
+#BSUB -J jacobi_benchmark
+#BSUB -q hpc
+#BSUB -W 01:00
+#BSUB -n 16
+#BSUB -R "span[hosts=1]"
+#BSUB -R "rusage[mem=8000MB]"
+#BSUB -o benchmark_%J.out
+#BSUB -e benchmark_%J.err
+
+# Go to submission directory
+cd $LS_SUBCWD
+
+echo "Running in directory:"
+pwd
+
+echo "Python used:"
+which python
+
+echo "Allocated cores:"
+echo $LSB_DJOB_NUMPROC
+
+echo "Job started"
+date
+
+python benchmark_parallel.py
+
+echo "Job finished"
+date
+------------------------------------------------------------
+
+Successfully completed.
+
+Resource usage summary:
+
+    CPU time :                                   3237.01 sec.
+    Max Memory :                                 259 MB
+    Average Memory :                             121.17 MB
+    Total Requested Memory :                     128000.00 MB
+    Delta Memory :                               127741.00 MB
+    Max Swap :                                   -
+    Max Processes :                              20
+    Max Threads :                                24
+    Run time :                                   1443 sec.
+    Turnaround time :                            1346 sec.
+
+The output (if any) is above this job summary.
+
+
+
+PS:
+
+Read file <benchmark_28050364.err> for stderr output of this job.
+
